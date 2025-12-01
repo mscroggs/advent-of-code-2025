@@ -22,7 +22,6 @@ fn main() {
         } else {
             n += distance;
         }
-        println!("{n}");
         while n < 0 {
             n += 100;
             result += 1;
@@ -37,7 +36,6 @@ fn main() {
         } else if n == 0 {
             result += 1;
         }
-        println!("{line} -> {n}  {result}");
     }
 
     #[cfg(feature = "test_input")]
