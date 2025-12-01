@@ -1,0 +1,27 @@
+name: 🧪
+
+on:
+  push:
+    branches: ["**"]
+
+jobs:
+  run-tests-rust:
+    name: Run Rust tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions/checkout@v4
+      - name: Run scripts with test input
+        run: |
+          for i in $(seq 1 25);
+          do
+              if [ -d "day$i" ]; then
+                  cd "day$i"
+                  cargo run --bin part1 --features test_input
+                  cargo run --bin part2 --features test_input
+                  cd ..
+              fi
+          done
