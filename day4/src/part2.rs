@@ -20,18 +20,23 @@ fn main() {
             for (j, p) in row.iter().enumerate() {
                 if *p
                     && [
-                        (i - 1, j - 1),
-                        (i - 1, j),
-                        (i - 1, j + 1),
-                        (i, j - 1),
-                        (i, j + 1),
-                        (i + 1, j - 1),
-                        (i + 1, j),
-                        (i + 1, j + 1),
+                        if i > 0 && j > 0 {
+                            Some((i - 1, j - 1))
+                        } else {
+                            None
+                        },
+                        if i > 0 { Some((i - 1, j)) } else { None },
+                        if i > 0 { Some((i - 1, j + 1)) } else { None },
+                        if j > 0 { Some((i, j - 1)) } else { None },
+                        Some((i, j + 1)),
+                        if j > 0 { Some((i + 1, j - 1)) } else { None },
+                        Some((i + 1, j)),
+                        Some((i + 1, j + 1)),
                     ]
                     .iter()
-                    .map(|(a, b)| {
-                        if let Some(r) = positions.get(*a)
+                    .map(|c| {
+                        if let Some((a, b)) = c
+                            && let Some(r) = positions.get(*a)
                             && let Some(true) = r.get(*b)
                         {
                             1
