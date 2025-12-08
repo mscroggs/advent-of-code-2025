@@ -40,7 +40,7 @@ fn edge_case(parts: &[Vec<usize>], edge: (usize, usize)) -> EdgeCase {
 
 fn squared_distance(a: &[usize], b: &[usize]) -> usize {
     izip!(a, b)
-        .map(|(i, j)| (if i > j { i - j } else { j - i }).pow(2))
+        .map(|(i, j)| i.abs_diff(*j).pow(2))
         .sum::<usize>()
 }
 
