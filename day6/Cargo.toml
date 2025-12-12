@@ -1,6 +1,3 @@
-[features]
-test_input = []
-
 [package]
 name = "day6"
 version = "0.1.0"

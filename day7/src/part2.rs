@@ -1,11 +1,8 @@
 use std::fs::File;
 use std::io::{BufReader, prelude::*};
 
-fn main() {
-    #[cfg(feature = "test_input")]
-    let file = File::open("test_input").unwrap();
-    #[cfg(not(feature = "test_input"))]
-    let file = File::open("input").unwrap();
+fn solve(filename: &str) -> usize {
+    let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
     let mut beams = vec![];
@@ -40,10 +37,20 @@ fn main() {
         }
     }
 
-    let result = beams.iter().sum::<usize>();
+    beams.iter().sum::<usize>()
+}
 
-    #[cfg(feature = "test_input")]
-    assert_eq!(result, 40);
+fn main() {
+    println!("{}", solve("input"));
+}
 
-    println!("{result}");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn day7_part2_test() {
+        let solution = solve("test_input");
+        assert_eq!(solution, 40);
+    }
 }

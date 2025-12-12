@@ -1,11 +1,8 @@
 use std::fs::File;
 use std::io::{BufReader, prelude::*};
 
-fn main() {
-    #[cfg(feature = "test_input")]
-    let file = File::open("test_input").unwrap();
-    #[cfg(not(feature = "test_input"))]
-    let file = File::open("input").unwrap();
+fn solve(filename: &str) -> i64 {
+    let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
     let mut ranges = vec![];
@@ -33,9 +30,20 @@ fn main() {
             result += end + 1 - start;
         }
     }
+    result
+}
 
-    #[cfg(feature = "test_input")]
-    assert_eq!(result, 14);
+fn main() {
+    println!("{}", solve("input"));
+}
 
-    println!("{result}");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn day5_part2_test() {
+        let solution = solve("test_input");
+        assert_eq!(solution, 14);
+    }
 }

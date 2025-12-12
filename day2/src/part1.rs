@@ -1,11 +1,8 @@
 use std::fs::File;
 use std::io::{prelude::*, BufReader};
 
-fn main() {
-    #[cfg(feature = "test_input")]
-    let file = File::open("test_input").unwrap();
-    #[cfg(not(feature = "test_input"))]
-    let file = File::open("input").unwrap();
+fn solve(filename: &str) -> u64 {
+    let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
     let content = reader.lines().next().unwrap().unwrap();
@@ -23,9 +20,20 @@ fn main() {
             }
         }
     }
+    result
+}
 
-    #[cfg(feature = "test_input")]
-    assert_eq!(result, 1227775554);
+fn main() {
+    println!("{}", solve("input"));
+}
 
-    println!("{result}");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn day2_part1_test() {
+        let solution = solve("test_input");
+        assert_eq!(solution, 1227775554);
+    }
 }

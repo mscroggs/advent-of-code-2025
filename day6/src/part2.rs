@@ -1,11 +1,8 @@
 use std::fs::File;
 use std::io::{BufReader, prelude::*};
 
-fn main() {
-    #[cfg(feature = "test_input")]
-    let file = File::open("test_input").unwrap();
-    #[cfg(not(feature = "test_input"))]
-    let file = File::open("input").unwrap();
+fn solve(filename: &str) -> u64 {
+    let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
     let lines = reader
@@ -49,9 +46,20 @@ fn main() {
             numbers = vec![];
         }
     }
+    result
+}
 
-    #[cfg(feature = "test_input")]
-    assert_eq!(result, 3263827);
+fn main() {
+    println!("{}", solve("input"));
+}
 
-    println!("{result}");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn day6_part2_test() {
+        let solution = solve("test_input");
+        assert_eq!(solution, 3263827);
+    }
 }

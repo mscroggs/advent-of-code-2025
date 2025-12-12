@@ -21,11 +21,8 @@ fn is_valid(n: &str) -> bool {
     false
 }
 
-fn main() {
-    #[cfg(feature = "test_input")]
-    let file = File::open("test_input").unwrap();
-    #[cfg(not(feature = "test_input"))]
-    let file = File::open("input").unwrap();
+fn solve(filename: &str) -> u64 {
+    let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
     let content = reader.lines().next().unwrap().unwrap();
@@ -41,9 +38,20 @@ fn main() {
             }
         }
     }
+    result
+}
 
-    #[cfg(feature = "test_input")]
-    assert_eq!(result, 4174379265);
+fn main() {
+    println!("{}", solve("input"));
+}
 
-    println!("{result}");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn day2_part2_test() {
+        let solution = solve("test_input");
+        assert_eq!(solution, 4174379265);
+    }
 }

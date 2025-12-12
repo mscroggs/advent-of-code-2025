@@ -13,11 +13,8 @@ fn contained(xmin: usize, xmax: usize, ymin: usize, ymax: usize, edges: &[Vec<us
     true
 }
 
-fn main() {
-    #[cfg(feature = "test_input")]
-    let file = File::open("test_input").unwrap();
-    #[cfg(not(feature = "test_input"))]
-    let file = File::open("input").unwrap();
+fn solve(filename: &str) -> Option<usize> {
+    let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
     let tiles = reader
@@ -65,16 +62,25 @@ fn main() {
         }
     }
 
-    let mut result = 0;
     for (xmin, xmax, ymin, ymax, area) in rectangles {
         if contained(xmin, xmax, ymin, ymax, &edges) {
-            result = area;
-            break;
+            return Some(area);
         }
     }
+    None
+}
 
-    #[cfg(feature = "test_input")]
-    assert_eq!(result, 24);
+fn main() {
+    println!("{}", solve("input").unwrap());
+}
 
-    println!("{result}");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn day9_part1_test() {
+        let solution = solve("test_input").unwrap();
+        assert_eq!(solution, 24);
+    }
 }
