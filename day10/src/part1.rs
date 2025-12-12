@@ -70,11 +70,8 @@ impl Machine {
     }
 }
 
-fn main() {
-    #[cfg(feature = "test_input")]
-    let file = File::open("test_input").unwrap();
-    #[cfg(not(feature = "test_input"))]
-    let file = File::open("input").unwrap();
+fn solve(filename: &str) -> usize {
+    let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
     let mut machines = vec![];
@@ -105,9 +102,20 @@ fn main() {
         }
         result += np;
     }
+    result
+}
 
-    #[cfg(feature = "test_input")]
-    assert_eq!(result, 7);
+fn main() {
+    println!("{}", solve("input"));
+}
 
-    println!("{result}");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn day10_part1_test() {
+        let solution = solve("test_input");
+        assert_eq!(solution, 7);
+    }
 }
