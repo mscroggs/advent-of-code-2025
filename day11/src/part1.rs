@@ -39,7 +39,7 @@ fn solve(filename: &str) -> usize {
             }
         }
 
-        if new_paths.len() == 0 {
+        if new_paths.is_empty() {
             break;
         }
         paths = new_paths;

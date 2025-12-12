@@ -47,7 +47,7 @@ fn count_routes(
                 for p in &new_post {
                     if let Some(next) = machines.get(p) {
                         for n in next {
-                            if !post.contains(&n) {
+                            if !post.contains(n) {
                                 post.push(String::from(n));
                                 new_new_post.push(String::from(n));
                             }
@@ -69,7 +69,7 @@ fn count_routes(
             for next in &machines[p] {
                 if next == end {
                     valid_paths += n;
-                } else if post.contains(&next) {
+                } else if post.contains(next) {
                     continue;
                 } else if machines.contains_key(next) {
                     if let Some(i) = new_paths.get_mut(next) {
@@ -81,7 +81,7 @@ fn count_routes(
             }
         }
 
-        if new_paths.len() == 0 {
+        if new_paths.is_empty() {
             break;
         }
         paths = new_paths;
