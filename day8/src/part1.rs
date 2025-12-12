@@ -44,11 +44,8 @@ fn squared_distance(a: &[usize], b: &[usize]) -> usize {
         .sum::<usize>()
 }
 
-fn main() {
-    #[cfg(feature = "test_input")]
-    let file = File::open("test_input").unwrap();
-    #[cfg(not(feature = "test_input"))]
-    let file = File::open("input").unwrap();
+fn solve(filename: &str, n: usize) -> usize {
+    let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
     let boxes = reader
@@ -69,11 +66,6 @@ fn main() {
     }
 
     pairs.sort_by(|a, b| a.2.cmp(&b.2));
-
-    #[cfg(feature = "test_input")]
-    let n = 10;
-    #[cfg(not(feature = "test_input"))]
-    let n = 1000;
 
     let mut parts = vec![];
 
@@ -103,9 +95,20 @@ fn main() {
     for i in parts.iter().take(3) {
         result *= i
     }
+    result
+}
 
-    #[cfg(feature = "test_input")]
-    assert_eq!(result, 40);
+fn main() {
+    println!("{}", solve("input", 1000));
+}
 
-    println!("{result}");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn day8_part1_test() {
+        let solution = solve("test_input", 10);
+        assert_eq!(solution, 40);
+    }
 }

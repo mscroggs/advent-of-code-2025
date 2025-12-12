@@ -1,11 +1,8 @@
 use std::fs::File;
 use std::io::{prelude::*, BufReader};
 
-fn main() {
-    #[cfg(feature = "test_input")]
-    let file = File::open("test_input").unwrap();
-    #[cfg(not(feature = "test_input"))]
-    let file = File::open("input").unwrap();
+fn solve(filename: &str) -> i32 {
+    let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
     let mut result = 0;
@@ -27,9 +24,20 @@ fn main() {
         }
         result += 10 * first_digit.1 + second_digit;
     }
+    result
+}
 
-    #[cfg(feature = "test_input")]
-    assert_eq!(result, 357);
+fn main() {
+    println!("{}", solve("input"));
+}
 
-    println!("{result}");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn day3_part1_test() {
+        let solution = solve("test_input");
+        assert_eq!(solution, 357);
+    }
 }
