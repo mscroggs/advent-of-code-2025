@@ -1,6 +1,6 @@
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufReader, prelude::*};
-use std::collections::HashMap;
 
 fn solve(filename: &str) -> usize {
     let file = File::open(filename).unwrap();
@@ -12,7 +12,12 @@ fn solve(filename: &str) -> usize {
         let line = line.unwrap();
         let mut parts = line.split(": ");
         let machine = String::from(parts.next().unwrap());
-        let outputs = parts.next().unwrap().split(" ").map(String::from).collect::<Vec<_>>();
+        let outputs = parts
+            .next()
+            .unwrap()
+            .split(" ")
+            .map(String::from)
+            .collect::<Vec<_>>();
         machines.insert(machine, outputs);
     }
 
@@ -24,10 +29,14 @@ fn solve(filename: &str) -> usize {
     let dac_fft = count_routes(&machines, "dac", "fft", vec!["fft"]);
 
     svr_dac * dac_fft * fft_out + svr_fft * fft_dac * dac_out
-
 }
 
-fn count_routes(machines: &HashMap<String, Vec<String>>, start: &str, end: &str, not_included: Vec<&str>) -> usize{
+fn count_routes(
+    machines: &HashMap<String, Vec<String>>,
+    start: &str,
+    end: &str,
+    not_included: Vec<&str>,
+) -> usize {
     let mut post = vec![];
     for ni in not_included {
         if machines.contains_key(ni) {
@@ -50,11 +59,6 @@ fn count_routes(machines: &HashMap<String, Vec<String>>, start: &str, end: &str,
         }
     }
 
-    println!();
-    println!();
-    println!("== {start} -> {end} ==");
-    println!("{} {}", machines.len(), post.len());
-
     let mut paths = HashMap::from([(String::from(start), 1)]);
     let mut valid_paths = 0;
 
@@ -65,8 +69,8 @@ fn count_routes(machines: &HashMap<String, Vec<String>>, start: &str, end: &str,
             for next in &machines[p] {
                 if next == end {
                     valid_paths += n;
-                //} else if post.contains(&next) {
-                //    continue;
+                } else if post.contains(&next) {
+                    continue;
                 } else if machines.contains_key(next) {
                     if let Some(i) = new_paths.get_mut(next) {
                         *i += *n;
@@ -80,7 +84,6 @@ fn count_routes(machines: &HashMap<String, Vec<String>>, start: &str, end: &str,
         if new_paths.len() == 0 {
             break;
         }
-        println!("{}", new_paths.len());
         paths = new_paths;
     }
 

@@ -1,8 +1,8 @@
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufReader, prelude::*};
-use std::collections::HashMap;
 
-fn solve(filename: &str) -> usize{
+fn solve(filename: &str) -> usize {
     let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
 
@@ -12,7 +12,12 @@ fn solve(filename: &str) -> usize{
         let line = line.unwrap();
         let mut parts = line.split(": ");
         let machine = String::from(parts.next().unwrap());
-        let outputs = parts.next().unwrap().split(" ").map(String::from).collect::<Vec<_>>();
+        let outputs = parts
+            .next()
+            .unwrap()
+            .split(" ")
+            .map(String::from)
+            .collect::<Vec<_>>();
         machines.insert(machine, outputs);
     }
 
@@ -27,7 +32,6 @@ fn solve(filename: &str) -> usize{
                 let mut new_p = p.clone();
                 new_p.push(next);
                 if next == "out" {
-                    println!("{new_p:?}");
                     valid_paths.push(new_p);
                 } else {
                     new_paths.push(new_p);
